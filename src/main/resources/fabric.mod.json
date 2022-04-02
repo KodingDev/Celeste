@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "celeste",
+  "version": "${version}",
+  "name": "Celeste",
+  "description": "Sophisticated utility client",
+  "authors": [
+    "KodingDev"
+  ],
+  "contact": {
+    "website": "https://koding.dev"
+  },
+  "license": "MIT",
+  "icon": "assets/celeste/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.koding.celeste.client.CelesteClient"
+    ],
+    "modmenu": [
+      "dev.koding.celeste.client.config.ModMenuCompatibility"
+    ]
+  },
+  "mixins": [
+    "celeste.mixins.json"
+  ],
+  "depends": {
+    "java": ">=17",
+    "fabricloader": ">=0.13.3",
+    "minecraft": ">=${mc_version}"
+  }
+}
