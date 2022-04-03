@@ -1,6 +1,7 @@
 package dev.koding.celeste.client
 
 import dev.koding.celeste.client.config.Config
+import dev.koding.celeste.client.systems.module.ModuleSystem
 import dev.koding.celeste.client.utils.mc
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.EnvType
@@ -23,6 +24,7 @@ class CelesteClient : ClientModInitializer, ICelesteClient {
 
     override fun onInitializeClient() {
         instance = this
+        ModuleSystem.register()
     }
 }
 

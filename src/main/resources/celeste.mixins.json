@@ -4,6 +4,7 @@
   "package": "dev.koding.celeste.client.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "client.MixinKeyboard",
     "client.MixinMinecraftClient",
     "client.resource.MixinSplashTextResourceSupplier"
   ],
