@@ -9,7 +9,7 @@ import org.lwjgl.glfw.GLFW
 
 object ModuleSystem : Listener {
 
-    private val modules = listOf<Module>(
+    val modules = listOf<Module>(
         TestModule // Misc
     )
 
@@ -25,10 +25,16 @@ object ModuleSystem : Listener {
 }
 
 object TestModule :
-    Module(ModuleCategory.MISC, Items.NETHER_STAR, "test", "Test Module", key = KeyBind(GLFW.GLFW_KEY_T)) {
+    Module(ModuleCategory.MISC, Items.NETHER_STAR, "Test", "Test ha ha ha !", key = KeyBind(GLFW.GLFW_KEY_T)) {
+    private var awesome = true
+
     init {
         listen<KeyboardEvent> {
             println("TestModule: $it")
+        }
+
+        config {
+            switch(::awesome, "Awesome", "Some awesome stuff")
         }
     }
 

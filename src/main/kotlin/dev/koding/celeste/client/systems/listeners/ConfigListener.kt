@@ -10,7 +10,6 @@ import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen
 import org.lwjgl.glfw.GLFW
 
 object ConfigListener : Listener {
-
     init {
         listen<KeyboardEvent> {
             if (mc.currentScreen !is TitleScreen && mc.currentScreen !is MultiplayerScreen) return@listen
@@ -18,5 +17,4 @@ object ConfigListener : Listener {
             mc.executeSync { mc.setScreen(Client.config.gui()) }
         }
     }
-
 }

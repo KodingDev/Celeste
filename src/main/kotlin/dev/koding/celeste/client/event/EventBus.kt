@@ -4,7 +4,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
 object EventBus {
-
     private val eventFlow = MutableSharedFlow<Event>()
     val events = eventFlow.asSharedFlow()
 

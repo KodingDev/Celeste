@@ -2,22 +2,33 @@ package dev.koding.celeste.client.systems.module
 
 import dev.koding.celeste.client.event.Listener
 import dev.koding.celeste.client.utils.KeyBind
+import gg.essential.vigilance.Vigilant
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 
 @Suppress("unused")
 abstract class Module(
-    private val category: ModuleCategory,
-    private val icon: Item,
-    private val name: String,
-    private val description: String,
-    private val cheat: Boolean = true,
+    val category: ModuleCategory,
+    val icon: Item,
+    val name: String,
+    val description: String,
+    val cheat: Boolean = true,
     var key: KeyBind? = null
 ) : Listener {
     private var active = false
+    var configBuilder: (Vigilant.CategoryPropertyBuilder.() -> Unit)? = null
+        private set
 
     open fun onEnable() {}
     open fun onDisable() {}
+
+    protected fun config(builder: Vigilant.CategoryPropertyBuilder.() -> Unit) {
+        if (configBuilder != null) {
+            throw IllegalStateException("Config builder already set")
+        }
+
+        configBuilder = builder
+    }
 
     fun toggle() = setActive(!active)
 
@@ -33,7 +44,6 @@ abstract class Module(
             unregister()
         }
     }
-
 }
 
 @Suppress("unused")
