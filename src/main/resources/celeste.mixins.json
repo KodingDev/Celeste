@@ -6,6 +6,9 @@
   "client": [
     "client.MixinKeyboard",
     "client.MixinMinecraftClient",
+    "client.gui.hud.ChatHudAccessor",
+    "client.gui.screen.MixinCommandSuggestor",
+    "client.network.MixinClientPlayerEntity",
     "client.resource.MixinSplashTextResourceSupplier"
   ],
   "injectors": {

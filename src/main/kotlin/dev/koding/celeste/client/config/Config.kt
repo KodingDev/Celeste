@@ -8,7 +8,15 @@ import dev.koding.celeste.client.utils.div
 import gg.essential.vigilance.Vigilant
 
 class Config : Vigilant(Client.storageDir / "config.toml", guiTitle = "Celeste") {
+    var commandPrefix = "."
+
     init {
+        category("Celeste") {
+            subcategory("Commands") {
+                text(::commandPrefix, "Command Prefix", "Prefix for custom chat commands")
+            }
+        }
+
         ModuleSystem.modules
             .filter { it.configBuilder != null }
             .groupBy { it.category }

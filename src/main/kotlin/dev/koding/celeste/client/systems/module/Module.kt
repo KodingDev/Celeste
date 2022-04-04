@@ -1,6 +1,7 @@
 package dev.koding.celeste.client.systems.module
 
 import dev.koding.celeste.client.event.Listener
+import dev.koding.celeste.client.utils.Chat
 import dev.koding.celeste.client.utils.KeyBind
 import gg.essential.vigilance.Vigilant
 import net.minecraft.item.Item
@@ -43,6 +44,8 @@ abstract class Module(
             onDisable()
             unregister()
         }
+
+        Chat.info("${if (active) "Enabled" else "Disabled"} module $name", id = "module-$name".hashCode())
     }
 }
 

@@ -1,4 +1,4 @@
-package dev.koding.celeste.client.systems.listeners
+package dev.koding.celeste.client.systems.listener
 
 import dev.koding.celeste.client.Client
 import dev.koding.celeste.client.event.Listener

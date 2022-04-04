@@ -1,7 +1,8 @@
 package dev.koding.celeste.client
 
 import dev.koding.celeste.client.config.Config
-import dev.koding.celeste.client.systems.listeners.Listeners
+import dev.koding.celeste.client.systems.command.CommandSystem
+import dev.koding.celeste.client.systems.listener.Listeners
 import dev.koding.celeste.client.systems.module.ModuleSystem
 import dev.koding.celeste.client.utils.mc
 import net.fabricmc.api.ClientModInitializer
@@ -20,12 +21,13 @@ class CelesteClient : ClientModInitializer, ICelesteClient {
     }
 
     override val container by lazy { FabricLoader.getInstance().getModContainer("celeste").get() }
-    override val storageDir by lazy { File(mc.runDirectory, "Celeste").apply { mkdirs() } }
+    override val storageDir by lazy { File(mc.runDirectory, name).apply { mkdirs() } }
     override val config by lazy { Config() }
 
     override fun onInitializeClient() {
         instance = this
         ModuleSystem.register()
+        CommandSystem.setup()
         Listeners.register()
     }
 }

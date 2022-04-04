@@ -4,6 +4,7 @@ import dev.koding.celeste.client.event.Listener
 import dev.koding.celeste.client.event.impl.client.KeyboardEvent
 import dev.koding.celeste.client.event.listen
 import dev.koding.celeste.client.utils.KeyBind
+import dev.koding.celeste.client.utils.mc
 import net.minecraft.item.Items
 import org.lwjgl.glfw.GLFW
 
@@ -15,6 +16,7 @@ object ModuleSystem : Listener {
 
     init {
         listen<KeyboardEvent> { event ->
+            if (mc.currentScreen != null) return@listen
             if (event.action != KeyboardEvent.Action.PRESS) return@listen
             modules
                 .filter { it.key?.key == event.key }
