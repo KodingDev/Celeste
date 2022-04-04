@@ -1,15 +1,14 @@
 package dev.koding.celeste.client.systems.command
 
 import com.mojang.brigadier.CommandDispatcher
-import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.exceptions.CommandSyntaxException
+import dev.koding.celeste.client.systems.command.impl.ConfigCommand
 import dev.koding.celeste.client.utils.mc
 import net.minecraft.client.network.ClientCommandSource
 import net.minecraft.command.CommandSource
 
 object CommandSystem {
-
-    private val commands = arrayListOf<Command>(BasedCommand)
+    private val commands = arrayListOf<Command>(ConfigCommand)
 
     @JvmStatic
     val dispatcher = CommandDispatcher<CommandSource>()
@@ -21,18 +20,5 @@ object CommandSystem {
     @Throws(CommandSyntaxException::class)
     fun dispatch(command: String) = dispatcher.execute(dispatcher.parse(command, commandSource))
 
-    fun setup() {
-        commands.forEach { it.register(dispatcher) }
-    }
-
-}
-
-object BasedCommand : Command("Based", "Swag !", "based", "aliased") {
-    override fun build(builder: LiteralArgumentBuilder<CommandSource>) {
-        builder
-            .then(literal("based").executes {
-                println("based")
-                1
-            })
-    }
+    fun setup() = commands.forEach { it.register(dispatcher) }
 }

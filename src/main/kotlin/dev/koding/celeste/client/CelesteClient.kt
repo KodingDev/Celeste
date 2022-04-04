@@ -4,6 +4,7 @@ import dev.koding.celeste.client.config.Config
 import dev.koding.celeste.client.systems.command.CommandSystem
 import dev.koding.celeste.client.systems.listener.Listeners
 import dev.koding.celeste.client.systems.module.ModuleSystem
+import dev.koding.celeste.client.utils.TickScheduler
 import dev.koding.celeste.client.utils.mc
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.EnvType
@@ -29,6 +30,7 @@ class CelesteClient : ClientModInitializer, ICelesteClient {
         ModuleSystem.register()
         CommandSystem.setup()
         Listeners.register()
+        TickScheduler.register()
     }
 }
 

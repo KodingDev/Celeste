@@ -16,6 +16,7 @@ abstract class Command(
     protected fun <T> argument(name: String, type: ArgumentType<T>): RequiredArgumentBuilder<CommandSource, T> =
         RequiredArgumentBuilder.argument(name, type)
 
+    @Suppress("MemberVisibilityCanBePrivate")
     protected fun literal(literal: String): LiteralArgumentBuilder<CommandSource> =
         LiteralArgumentBuilder.literal(literal)
 

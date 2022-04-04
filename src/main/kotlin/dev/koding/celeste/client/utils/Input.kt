@@ -26,7 +26,11 @@ class Input(private val states: Array<Boolean>) {
 
 }
 
-class KeyBind(val key: Int) {
+class KeyBind(var key: Int) {
+    companion object {
+        val empty = KeyBind(-1)
+    }
+
     val name: String get() = GLFW.glfwGetKeyName(key, 0) ?: "Key $key"
 
     @get:JvmName("isPressed")

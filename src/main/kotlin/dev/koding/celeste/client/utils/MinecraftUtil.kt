@@ -31,6 +31,6 @@ object Chat {
 object Colors {
     val primary = Color(0xf48fb1)
     val error = Color(0xF44336)
-    val info = Color(0x2196F3)
+    val info = Color(0xfce4ec)
     val gray = Color(0x9e9e9e)
 }

@@ -14,7 +14,7 @@ abstract class Module(
     val name: String,
     val description: String,
     val cheat: Boolean = true,
-    var key: KeyBind? = null
+    var key: KeyBind = KeyBind.empty
 ) : Listener {
     private var active = false
     var configBuilder: (Vigilant.CategoryPropertyBuilder.() -> Unit)? = null
