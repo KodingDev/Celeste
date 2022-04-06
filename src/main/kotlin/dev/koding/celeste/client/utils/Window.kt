@@ -1,6 +1,5 @@
 package dev.koding.celeste.client.utils
 
-import dev.koding.celeste.client.CelesteClient
 import dev.koding.celeste.client.Client
 import net.minecraft.util.Formatting
 
@@ -61,8 +60,8 @@ object Window {
     val coloredSplash = "${Formatting.values().random()}$splashText"
 
     fun setIcon() = mc.window.setIcon(
-        CelesteClient::class.java.getResourceAsStream("/assets/celeste/textures/icon/icon16.png"),
-        CelesteClient::class.java.getResourceAsStream("/assets/celeste/textures/icon/icon32.png"),
+        Client::class.java.getResourceAsStream("/assets/celeste/textures/icon/icon16.png"),
+        Client::class.java.getResourceAsStream("/assets/celeste/textures/icon/icon32.png"),
     )
 
     fun setTitle() = mc.window.setTitle("${Client.name} V${Client.version} - $splashText")

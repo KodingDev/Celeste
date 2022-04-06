@@ -1,12 +1,15 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.jetbrains.kotlin.konan.file.file
+import java.net.URI
+import java.nio.file.FileSystems
 
 plugins {
     `maven-publish`
     id("fabric-loom") version "0.12-SNAPSHOT"
     id("com.github.johnrengelman.shadow") version "7.1.2"
 
-    kotlin("jvm") version "1.6.10"
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("jvm") version "1.6.20"
+    kotlin("plugin.serialization") version "1.6.20"
 }
 
 version = project.property("mod_version") as? String ?: "1.0.0"
@@ -21,19 +24,6 @@ repositories {
 }
 
 dependencies {
-    val library: (id: String) -> Unit = {
-        implementation(it) {
-            exclude(group = "org.slf4j")
-            exclude(group = "com.google.code.gson")
-            exclude(group = "org.ow2.asm")
-        }
-        shadow(it) {
-            exclude(group = "org.slf4j")
-            exclude(group = "com.google.code.gson")
-            exclude(group = "org.ow2.asm")
-        }
-    }
-
     // Required fabric dependencies
     minecraft("com.mojang:minecraft:${project.property("minecraft_version")}")
     mappings("net.fabricmc:yarn:${project.property("yarn_mappings")}:v2")
@@ -46,15 +36,28 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:3.1.0")
 
     // Kotlin
+    modImplementation(kotlin("stdlib-jdk8"))
     library("org.jetbrains.kotlinx:kotlinx-serialization-json:${project.property("kotlin_serialization_version")}")
 
     // Essential
-    modRuntimeOnly("gg.essential:loader-fabric:1.0.0")
-    modCompileOnly("gg.essential:essential-1.18.1-fabric:2289")
+    modImplementation("gg.essential:loader-fabric:1.0.0")
+    modImplementation("gg.essential:essential-1.18.1-fabric:2289")
+
+    // Other
+    library("io.github.microutils:kotlin-logging-jvm:2.1.21") {
+        exclude(group = "org.jetbrains.kotlin")
+    }
 }
 
 loom {
     accessWidenerPath.set(file("src/main/resources/celeste.accesswidener"))
+
+    runs {
+        getByName("client") {
+            vmArgs += arrayOf("-XX:+AllowEnhancedClassRedefinition", "-XX:HotswapAgent=fatjar")
+            property("essential.autoUpdate", "false")
+        }
+    }
 }
 
 tasks {
@@ -95,5 +98,49 @@ publishing {
                 builtBy(tasks.remapJar)
             }
         }
+    }
+}
+
+fun DependencyHandlerScope.library(id: Any, build: ExternalModuleDependency.() -> Unit = {}) {
+    implementation(id.toString()) {
+        exclude(group = "org.slf4j")
+        exclude(group = "com.google.code.gson")
+        exclude(group = "org.ow2.asm")
+        this.build()
+    }
+    shadow(id.toString()) {
+        exclude(group = "org.slf4j")
+        exclude(group = "com.google.code.gson")
+        exclude(group = "org.ow2.asm")
+        this.build()
+    }
+}
+
+// Essential Patcher
+
+val patchEssential: Task by tasks.creating {
+    doLast {
+        val target = file("run/essential/Essential (fabric_1.18.2).jar")
+
+        val originalFile = file("build/patched/essential-original.jar")
+        val output = file("build/patched/essential.jar")
+
+        if (!output.exists()) {
+            println("Patched file already exists, skipping patch")
+
+            if (!target.exists()) {
+                throw RuntimeException("Essential is not installed!")
+            }
+
+            val deleteTargets = arrayOf("kotlin", "kotlinx")
+            target.copyTo(originalFile, true)
+            target.copyTo(output, true)
+
+            FileSystems.newFileSystem(URI("jar", output.toURI().toString(), null), mapOf("create" to "false"))
+                .use { fs -> deleteTargets.forEach { fs.file(it).deleteRecursively() } }
+        }
+
+        // Copy over patched JAR
+        output.copyTo(target, true)
     }
 }

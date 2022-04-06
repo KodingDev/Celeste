@@ -15,7 +15,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "dev.koding.celeste.client.CelesteClient"
+      "dev.koding.celeste.client.Client::init"
     ],
     "modmenu": [
       "dev.koding.celeste.client.config.ModMenuCompatibility"
