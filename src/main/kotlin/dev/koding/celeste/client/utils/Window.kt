@@ -1,7 +1,9 @@
 package dev.koding.celeste.client.utils
 
 import dev.koding.celeste.client.Client
+import net.minecraft.client.MinecraftClient
 import net.minecraft.util.Formatting
+import java.util.Base64
 
 object Window {
     private val messages = arrayOf(
@@ -59,10 +61,24 @@ object Window {
     private val splashText: String get() = messages.random()
     val coloredSplash = "${Formatting.values().random()}$splashText"
 
-    fun setIcon() = mc.window.setIcon(
-        Client::class.java.getResourceAsStream("/assets/celeste/textures/icon/icon16.png"),
-        Client::class.java.getResourceAsStream("/assets/celeste/textures/icon/icon32.png"),
-    )
+    fun setIcon() {
+        if (MinecraftClient.IS_SYSTEM_MAC) {
+            val icon = Base64.getEncoder().encode(
+                Client::class.java.getResourceAsStream("/assets/celeste/icon.png")!!.readBytes()
+            ).decodeToString()
+
+            ca.weblite.objc.Client.getInstance().apply {
+                val data = sendProxy("NSData", "alloc").send("initWithBase64Encoding:", icon)
+                val image = sendProxy("NSImage", "alloc").send("initWithData:", data)
+                sendProxy("NSApplication", "sharedApplication").send("setApplicationIconImage:", image)
+            }
+        }
+
+        mc.window.setIcon(
+            Client::class.java.getResourceAsStream("/assets/celeste/textures/icon/icon16.png"),
+            Client::class.java.getResourceAsStream("/assets/celeste/textures/icon/icon32.png"),
+        )
+    }
 
     fun setTitle() = mc.window.setTitle("${Client.name} V${Client.version} - $splashText")
 

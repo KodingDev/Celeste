@@ -54,7 +54,7 @@ loom {
 
     runs {
         getByName("client") {
-            vmArgs += arrayOf("-XX:+AllowEnhancedClassRedefinition", "-XX:HotswapAgent=fatjar")
+//            vmArgs += arrayOf("-XX:+AllowEnhancedClassRedefinition", "-XX:HotswapAgent=fatjar")
             property("essential.autoUpdate", "false")
         }
     }
