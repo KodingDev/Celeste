@@ -22,15 +22,12 @@ class BoundingBox {
     var width: Double = 0.0
     var height: Double = 0.0
 
-    fun add(dx: Double, dy: Double) {
-        x += dx
-        y += dy
+    fun calculateBorders() {
+        if (this.x < 0) this.x = 0.0
+        else if (this.x + width > Window.scaledWidth) this.x = Window.scaledWidth - width
 
-        if (x < 0) x = 0.0
-        else if (x + width > Window.scaledWidth) x = Window.scaledWidth - width
-
-        if (y < 0) y = 0.0
-        else if (y + height > Window.scaledHeight) y = Window.scaledHeight - height
+        if (this.y < 0) this.y = 0.0
+        else if (this.y + height > Window.scaledHeight) this.y = Window.scaledHeight - height
     }
 
     fun contains(x: Double, y: Double) = x >= this.x && x <= this.x + width && y >= this.y && y <= this.y + height

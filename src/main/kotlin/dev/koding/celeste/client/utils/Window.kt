@@ -70,6 +70,6 @@ object Window {
     val height: Int get() = mc.window.framebufferHeight
 
     val scaleFactor: Double get() = mc.window.scaleFactor
-    val scaledWidth: Int get() = (width * scaleFactor).toInt()
-    val scaledHeight: Int get() = (height * scaleFactor).toInt()
+    val scaledWidth: Int get() = mc.window.scaledWidth
+    val scaledHeight: Int get() = mc.window.scaledHeight
 }

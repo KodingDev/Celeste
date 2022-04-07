@@ -2,6 +2,7 @@
 
 package dev.koding.celeste.client.utils
 
+import net.minecraft.util.math.MathHelper
 import org.lwjgl.glfw.GLFW
 
 class Input(private val states: Array<Boolean>) {
@@ -39,8 +40,8 @@ class KeyBind(var key: Int) {
 }
 
 object Mouse {
-    val x: Double get() = mc.mouse.x
-    val y: Double get() = mc.mouse.y
+    private val x: Double get() = MathHelper.clamp(mc.mouse.x, 0.0, Window.width.toDouble())
+    private val y: Double get() = MathHelper.clamp(mc.mouse.y, 0.0, Window.height.toDouble())
 
     val scaledX: Double get() = x / Window.scaleFactor
     val scaledY: Double get() = y / Window.scaleFactor
