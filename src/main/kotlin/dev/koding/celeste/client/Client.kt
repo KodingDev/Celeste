@@ -10,6 +10,7 @@ import mu.KotlinLogging
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.util.Identifier
 import java.io.File
 import kotlin.system.measureTimeMillis
 
@@ -40,4 +41,7 @@ object Client {
         }
         logger.info { "Celeste Client initialized in ${time}ms" }
     }
+
+    @JvmStatic
+    fun id(name: String) = Identifier(container.metadata.id, name)
 }

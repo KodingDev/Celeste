@@ -1,1 +1,15 @@
 accessWidener	v1	named
+
+Accessible    field    com/mojang/blaze3d/platform/GlStateManager    BLEND      Lcom/mojang/blaze3d/platform/GlStateManager$BlendFuncState;
+Accessible    field    com/mojang/blaze3d/platform/GlStateManager    DEPTH      Lcom/mojang/blaze3d/platform/GlStateManager$DepthTestState;
+Accessible    field    com/mojang/blaze3d/platform/GlStateManager    CULL       Lcom/mojang/blaze3d/platform/GlStateManager$CullFaceState;
+Accessible    field    com/mojang/blaze3d/platform/GlStateManager    SCISSOR    Lcom/mojang/blaze3d/platform/GlStateManager$ScissorTestState;
+
+Accessible    class    com/mojang/blaze3d/platform/GlStateManager$BlendFuncState
+Accessible    class    com/mojang/blaze3d/platform/GlStateManager$DepthTestState
+Accessible    class    com/mojang/blaze3d/platform/GlStateManager$CullFaceState
+Accessible    class    com/mojang/blaze3d/platform/GlStateManager$ScissorTestState
+
+Accessible    class    com/mojang/blaze3d/platform/GlStateManager$CapabilityTracker
+Accessible    field    com/mojang/blaze3d/platform/GlStateManager$CapabilityTracker    state      Z
+Accessible    field    com/mojang/blaze3d/platform/GlStateManager$CapabilityTracker    cap        I
