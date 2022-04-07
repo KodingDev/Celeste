@@ -37,3 +37,11 @@ class KeyBind(var key: Int) {
     val pressed
         get() = Input.keyboard[key]
 }
+
+object Mouse {
+    val x: Double get() = mc.mouse.x
+    val y: Double get() = mc.mouse.y
+
+    val scaledX: Double get() = x / Window.scaleFactor
+    val scaledY: Double get() = y / Window.scaleFactor
+}
