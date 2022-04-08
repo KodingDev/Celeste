@@ -1,6 +1,7 @@
 package dev.koding.celeste.client.systems.hud.component
 
 import dev.koding.celeste.client.systems.hud.HUDElement
+import dev.koding.celeste.client.systems.hud.HUDSystem
 import dev.koding.celeste.client.utils.Mouse
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIBlock
@@ -34,20 +35,15 @@ class HUDElementComponent(private val element: HUDElement, window: Window) : UIC
     private val horizontalSnapGuide by UIBlock(Color.red) childOf window
 
     init {
-        verticalSnapGuide.hide()
-        horizontalSnapGuide.hide()
-
         onMouseClick {
             dragging = true
             delta = Vector2f(Mouse.scaledX.toFloat(), Mouse.scaledY.toFloat())
-            verticalSnapGuide.unhide()
-            horizontalSnapGuide.unhide()
         }
 
         onMouseRelease {
             dragging = false
-            verticalSnapGuide.hide()
-            horizontalSnapGuide.hide()
+            verticalSnapGuide.reset()
+            horizontalSnapGuide.reset()
         }
 
         onMouseDrag { _, _, mouseButton ->
@@ -68,12 +64,27 @@ class HUDElementComponent(private val element: HUDElement, window: Window) : UIC
             }
 
             // Screen snap coordinates for axis center
-            val screenSnapPoints = SNAP_POINTS.map {
+            val otherSnapPoints = SNAP_POINTS.map {
                 Vector2f(
                     it.x * UResolution.scaledWidth,
                     it.y * UResolution.scaledHeight
                 )
-            }
+            }.toMutableList()
+
+            // Add snap points for each element
+            otherSnapPoints.addAll(
+                HUDSystem.elements
+                    .filter { it != element }
+                    .map {
+                        SNAP_POINTS.map { point ->
+                            Vector2f(
+                                (it.boundingBox.x + point.x * it.boundingBox.width).toFloat(),
+                                (it.boundingBox.y + point.y * it.boundingBox.height).toFloat()
+                            )
+                        }
+                    }
+                    .flatten()
+            )
 
             // TODO: Account for other elements
             // See: https://github.com/isXander/EvergreenHUD/blob/6821d50dee9bf55db6a78c0a69cdd362c45796e2/src/main/kotlin/dev/isxander/evergreenhud/ui/components/ElementComponent.kt#L109
@@ -83,7 +94,7 @@ class HUDElementComponent(private val element: HUDElement, window: Window) : UIC
             var horizontalSnap: Pair<Vector2f, Vector2f>? = null
 
             elementSnapPoints.forEach { point ->
-                screenSnapPoints.forEach { screenPoint ->
+                otherSnapPoints.forEach { screenPoint ->
                     if (horizontalSnap == null) {
                         if (abs(point.x - screenPoint.x) <= snapThreshold) {
                             horizontalSnap = point to screenPoint

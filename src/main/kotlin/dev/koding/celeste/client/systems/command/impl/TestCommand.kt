@@ -10,7 +10,7 @@ import net.minecraft.command.CommandSource
 object TestCommand : Command("test", "Debug command", "test") {
     override fun build(builder: LiteralArgumentBuilder<CommandSource>) {
         builder.executes {
-            TickScheduler.schedule { mc.setScreen(EditHUDScreen()) }
+            TickScheduler.schedule { mc.setScreen(EditHUDScreen) }
             1
         }
     }

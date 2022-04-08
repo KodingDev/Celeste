@@ -7,17 +7,20 @@ import gg.essential.universal.UResolution
  */
 class BoundingBox {
 
-    var x: Double = 0.0
-        set(value) {
-            field = value / UResolution.scaledWidth
-        }
-        get() = field * UResolution.scaledWidth
+    var xPercent = 0.0
+    var yPercent = 0.0
 
-    var y: Double = 0.0
+    var x: Double
         set(value) {
-            field = value / UResolution.scaledHeight
+            xPercent = value / UResolution.scaledWidth
         }
-        get() = field * UResolution.scaledHeight
+        get() = xPercent * UResolution.scaledWidth
+
+    var y: Double
+        set(value) {
+            yPercent = value / UResolution.scaledHeight
+        }
+        get() = yPercent * UResolution.scaledHeight
 
     var width: Double = 0.0
     var height: Double = 0.0

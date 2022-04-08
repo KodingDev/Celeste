@@ -6,15 +6,15 @@ import dev.koding.celeste.client.utils.mc
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.WindowScreen
 import gg.essential.elementa.dsl.childOf
-import gg.essential.elementa.dsl.provideDelegate
 import net.minecraft.client.util.math.MatrixStack
 import java.awt.Color
 
-class EditHUDScreen : WindowScreen(ElementaVersion.V1) {
-
-    @Suppress("unused")
-    val component by HUDElementComponent(TestElement(), window) childOf window
-
+object EditHUDScreen : WindowScreen(ElementaVersion.V1) {
+    init {
+        HUDSystem.elements.forEach {
+            HUDElementComponent(it, window) childOf window
+        }
+    }
 }
 
 class TestElement : HUDElement("test", "test", active = true) {
