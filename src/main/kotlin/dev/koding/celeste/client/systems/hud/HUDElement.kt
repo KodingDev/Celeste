@@ -4,7 +4,7 @@ import dev.koding.celeste.client.utils.encoding.NBTCodable
 import dev.koding.celeste.client.utils.encoding.nbt
 import dev.koding.celeste.client.utils.encoding.read
 import dev.koding.celeste.client.utils.ui.BoundingBox
-import net.minecraft.client.util.math.MatrixStack
+import gg.essential.elementa.UIComponent
 import net.minecraft.nbt.NbtCompound
 
 @Suppress("unused")
@@ -12,14 +12,16 @@ abstract class HUDElement(
     val name: String,
     val description: String,
     var active: Boolean = false
-) : NBTCodable<HUDElement> {
+) : NBTCodable<HUDElement>, UIComponent() {
 
     var boundingBox = BoundingBox()
 
     // TODO: Storage for config and data using delegate
 
-    open fun update() {}
-    abstract fun render(stack: MatrixStack)
+    open fun update() {
+        boundingBox.width = getWidth().toDouble()
+        boundingBox.height = getHeight().toDouble()
+    }
 
     override fun toTag() = nbt {
         "name" to name

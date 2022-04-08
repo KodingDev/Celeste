@@ -6,6 +6,7 @@ import dev.koding.celeste.client.utils.Mouse
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.Window
+import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.utils.Vector2f
 import gg.essential.universal.UMatrixStack
@@ -35,6 +36,13 @@ class HUDElementComponent(private val element: HUDElement, window: Window) : UIC
     private val horizontalSnapGuide by UIBlock(Color.red) childOf window
 
     init {
+        element.constrain {
+            x = 0.pixels()
+            y = 0.pixels()
+            width = ChildBasedSizeConstraint()
+            height = ChildBasedSizeConstraint()
+        } childOf this
+
         onMouseClick {
             dragging = true
             delta = Vector2f(Mouse.scaledX.toFloat(), Mouse.scaledY.toFloat())
@@ -85,9 +93,6 @@ class HUDElementComponent(private val element: HUDElement, window: Window) : UIC
                     }
                     .flatten()
             )
-
-            // TODO: Account for other elements
-            // See: https://github.com/isXander/EvergreenHUD/blob/6821d50dee9bf55db6a78c0a69cdd362c45796e2/src/main/kotlin/dev/isxander/evergreenhud/ui/components/ElementComponent.kt#L109
 
             val snapThreshold = 5f
             var verticalSnap: Pair<Vector2f, Vector2f>? = null
@@ -152,9 +157,6 @@ class HUDElementComponent(private val element: HUDElement, window: Window) : UIC
     override fun draw(matrixStack: UMatrixStack) {
         beforeDrawCompat(matrixStack)
         recalculateHitbox()
-
-        // TODO: Make hud elements components?
-        element.render(matrixStack.toMC())
         super.draw(matrixStack)
     }
 
