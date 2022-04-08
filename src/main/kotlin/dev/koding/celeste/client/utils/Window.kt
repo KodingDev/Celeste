@@ -81,11 +81,4 @@ object Window {
     }
 
     fun setTitle() = mc.window.setTitle("${Client.name} V${Client.version} - $splashText")
-
-    val width: Int get() = mc.window.framebufferWidth
-    val height: Int get() = mc.window.framebufferHeight
-
-    val scaleFactor: Double get() = mc.window.scaleFactor
-    val scaledWidth: Int get() = mc.window.scaledWidth
-    val scaledHeight: Int get() = mc.window.scaledHeight
 }

@@ -8,6 +8,7 @@ import gg.essential.elementa.components.Window
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.utils.Vector2f
 import gg.essential.universal.UMatrixStack
+import gg.essential.universal.UResolution
 import java.awt.Color
 import kotlin.math.abs
 import kotlin.math.min
@@ -69,8 +70,8 @@ class HUDElementComponent(private val element: HUDElement, window: Window) : UIC
             // Screen snap coordinates for axis center
             val screenSnapPoints = SNAP_POINTS.map {
                 Vector2f(
-                    it.x * dev.koding.celeste.client.utils.Window.width,
-                    it.y * dev.koding.celeste.client.utils.Window.height
+                    it.x * UResolution.scaledWidth,
+                    it.y * UResolution.scaledHeight
                 )
             }
 
