@@ -18,7 +18,7 @@ public class MixinKeyboard {
         if (key == GLFW.GLFW_KEY_UNKNOWN) return;
         Input.getKeyboard().set(key, action != GLFW.GLFW_RELEASE);
 
-        if (EventBus.postBlocking(new KeyboardEvent(key, modifiers, KeyboardEvent.Action.parse(action))).isCancelled()) {
+        if (EventBus.post(new KeyboardEvent(key, modifiers, KeyboardEvent.Action.parse(action))).isCancelled()) {
             ci.cancel();
         }
     }

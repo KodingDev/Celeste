@@ -1,44 +1,42 @@
 package dev.koding.celeste.client.event
 
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
-
 object EventBus {
-    private val eventFlow = MutableSharedFlow<Event>()
-    val events = eventFlow.asSharedFlow()
+    private val listeners = arrayListOf<Any>()
+    val subscriptions = hashMapOf<Class<out Event>, ArrayList<EventSubscription<*>>>()
 
-    val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    val subscriptions = arrayListOf<Any>()
-
+    @JvmStatic
     @Suppress("MemberVisibilityCanBePrivate", "unused")
-    suspend fun <T : Event> post(event: T): T {
-        eventFlow.emit(event)
+    fun <T : Event> post(event: T): T {
+        subscriptions
+            .filter { (klass) -> klass.isInstance(event) }
+            .flatMap { (_, subscriptions) -> subscriptions }
+            .filter { it.owner in listeners }
+            .forEach {
+                @Suppress("UNCHECKED_CAST")
+                (it.listener as (Event) -> Unit)(event)
+            }
         return event
     }
 
-    @JvmStatic
-    @Suppress("unused")
-    fun <T : Event> postBlocking(event: T) = runBlocking { post(event) }
-
     inline fun <reified T : Event> listen(instance: Any, noinline listener: (T) -> Unit) =
-        scope.launch {
-            events
-                .filterIsInstance<T>()
-                .filter { instance in subscriptions }
-                .collectLatest { listener(it) }
-        }
+        subscriptions.getOrPut(T::class.java) { arrayListOf() }.add(EventSubscription(instance, listener))
 
     private fun subscribe(instance: Any) {
-        subscriptions += instance
+        listeners += instance
     }
 
     private fun unsubscribe(instance: Any) {
-        subscriptions -= instance
+        listeners -= instance
     }
 
     operator fun plusAssign(instance: Any) = subscribe(instance)
     operator fun minusAssign(instance: Any) = unsubscribe(instance)
 }
+
+data class EventSubscription<T : Event>(
+    val owner: Any,
+    val listener: (T) -> Unit
+)
 
 interface Listener {
     fun register() = EventBus.plusAssign(this)

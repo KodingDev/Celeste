@@ -16,7 +16,9 @@ import kotlin.random.Random
 object EditHUDScreen : WindowScreen(ElementaVersion.V1) {
     init {
         Inspector(window) childOf window
-        HUDSystem.elements.forEach { HUDElementComponent(it, window) childOf window }
+        HUDSystem.elements.forEach {
+            HUDElementComponent(it, window) childOf window
+        }
     }
 }
 

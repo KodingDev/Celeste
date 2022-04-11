@@ -3,13 +3,13 @@ package dev.koding.celeste.client.systems.command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import dev.koding.celeste.client.systems.command.impl.ConfigCommand
-import dev.koding.celeste.client.systems.command.impl.TestCommand
+import dev.koding.celeste.client.systems.command.impl.HUDCommand
 import dev.koding.celeste.client.utils.mc
 import net.minecraft.client.network.ClientCommandSource
 import net.minecraft.command.CommandSource
 
 object CommandSystem {
-    private val commands = arrayListOf(ConfigCommand, TestCommand)
+    private val commands = arrayListOf(ConfigCommand, HUDCommand)
 
     @JvmStatic
     val dispatcher = CommandDispatcher<CommandSource>()

@@ -7,6 +7,7 @@
     "client.MixinKeyboard",
     "client.MixinMinecraftClient",
     "client.gui.hud.ChatHudAccessor",
+    "client.gui.hud.MixinInGameHud",
     "client.gui.screen.MixinCommandSuggestor",
     "client.network.MixinClientPlayerEntity",
     "client.resource.MixinSplashTextResourceSupplier"

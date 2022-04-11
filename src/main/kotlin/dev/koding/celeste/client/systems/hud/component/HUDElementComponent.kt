@@ -167,10 +167,12 @@ class HUDElementComponent(private val element: HUDElement, window: Window) : UIC
 
     private fun recalculateHitbox() = constrain {
         element.update()
-        width = element.boundingBox.width.pixels()
-        height = element.boundingBox.height.pixels()
-        x = element.boundingBox.x.pixels()
-        y = element.boundingBox.y.pixels()
+        element.boundingBox.let {
+            width = it.width.pixels()
+            height = it.height.pixels()
+            x = it.x.pixels()
+            y = it.y.pixels()
+        }
     }
 
     private fun UIBlock.reset() = constrain {

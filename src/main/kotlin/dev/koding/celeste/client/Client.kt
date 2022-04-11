@@ -2,6 +2,7 @@ package dev.koding.celeste.client
 
 import dev.koding.celeste.client.config.Config
 import dev.koding.celeste.client.systems.command.CommandSystem
+import dev.koding.celeste.client.systems.hud.HUDSystem
 import dev.koding.celeste.client.systems.listener.Listeners
 import dev.koding.celeste.client.systems.module.ModuleSystem
 import dev.koding.celeste.client.utils.TickScheduler
@@ -35,6 +36,7 @@ object Client {
 
             logger.info { "Registering listeners" }
             Listeners.register()
+            HUDSystem.register()
 
             logger.info { "Starting tick scheduler" }
             TickScheduler.register()
